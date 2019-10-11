@@ -1,0 +1,34 @@
+
+<h1>Zombies</h1>
+
+<p id="notice"><%= notice %></p>
+<% @zombies.each_slice(3) do |three_zombies| %>
+      <div class="card-deck">
+      <% three_zombies.each do |zombie| %>
+          <div class="card">
+          <%= image_tag zombie.photo, class: 'card-img-top' %>
+            <div class="card-body">
+              <h5 class="card-title"><%= zombie.name %></h5>
+              <p class="card-text">Kills: <%= zombie.kills %></p>
+              <p class="card-text">Health: <%= zombie.health %></p>
+              <p class="card-text">Weapon: <%= zombie.weapon %></p>
+              <%= link_to 'Show', zombie, class: 'btn btn-primary' %>
+              <%= link_to 'Edit', edit_zombie_path(zombie), class: 'btn btn-warning' %>
+              <%= link_to 'Destroy', zombie, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger' %>
+                <h5>Califica tu Zombie</h5>
+                <div class='starrr' id='star1' data-zombie='<%= zombie.id %>'></div>
+                <div>&nbsp;
+                <span class='your-choice-was' style='display: none;'>
+                  Your rating was <span class='choice'></span>.
+                </span>
+                <div>avg</div>
+                <span><%= (zombie.ratings.inject(0){|acc,sum| acc += sum.score} / zombie.ratings.length) if zombie.ratings.length > 0 %></span>
+              <div class="card-footer">
+              <small class="text-muted">Updated at: <%= time_ago_in_words zombie.updated_at %></small>
+            </div>
+          </div>
+       <% end %>
+    </div>
+    <% end %>
+  <br>
+<%= link_to 'New Zombie', new_zombie_path %>
